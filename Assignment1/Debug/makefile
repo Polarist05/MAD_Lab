@@ -60,8 +60,8 @@ all: main-build
 main-build: Lab4.elf secondary-outputs
 
 # Tool invocations
-Lab4.elf Lab4.map: $(OBJS) $(USER_OBJS) /Users/vorapolpromwan/Desktop/MicroCon/Project/KMITL-2023-S1-Microcontroller/Lab4/STM32F767ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Lab4.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/Users/vorapolpromwan/Desktop/MicroCon/Project/KMITL-2023-S1-Microcontroller/Lab4/STM32F767ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Lab4.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Lab4.elf Lab4.map: $(OBJS) $(USER_OBJS) /Users/vorapolpromwan/Desktop/MicroCon/Project/ToC_Special_Assignment_1/Assignment1/STM32F767ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Lab4.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/Users/vorapolpromwan/Desktop/MicroCon/Project/ToC_Special_Assignment_1/Assignment1/STM32F767ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Lab4.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

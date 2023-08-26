@@ -63,7 +63,7 @@ int recieveStrLength=0;
 void RecieveString(){
 	recieveStrLength=0;
 	char ch = 'a';
-	while(ch!='\n'){
+	while(ch!='\r'){
 		while(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_RXNE)== RESET){}
 		HAL_UART_Receive(&huart3, (uint8_t*) &ch, 1, 1000);
 		if(ch!=8){
@@ -75,6 +75,10 @@ void RecieveString(){
 		while(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_TC)==RESET){}
 		HAL_UART_Transmit(&huart3, (uint8_t*) &ch, 1,1000);
 	}
+	recieveStr[recieveStrLength++]= '\n';
+	while(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_TC)==RESET){}
+			HAL_UART_Transmit(&huart3, (uint8_t*) '\n', 1,1000);
+
 }
 /* USER CODE END 0 */
 
@@ -116,7 +120,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  const char startStr1[] = "Man from U.A.R.T.1!\nQuit PRESS q\n",startStr2[] = "Name : ",startStr3[]=" is ready\n",arrowStr[] = " => ";
+  const char startStr1[] = "Man from U.A.R.T.1!\r\nQuit PRESS q\r\n",startStr2[] = "Name : ",startStr3[]=" is ready\r\n",arrowStr[] = " => ";
   while (1)
   {
     /* USER CODE END WHILE */
@@ -129,10 +133,10 @@ int main(void)
 	while(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_TC)==RESET){}
 		HAL_UART_Transmit(&huart3, (uint8_t*) startStr2, strlen(startStr2),1000);
 	RecieveString();
-	for(int i=0;i<recieveStrLength-1;i++){
+	for(int i=0;i<recieveStrLength-2;i++){
 		userName1[i]=recieveStr[i];
 	}
-	userNameLength1=recieveStrLength-1;
+	userNameLength1=recieveStrLength-2;
 	while(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_TC)==RESET){}
 		HAL_UART_Transmit(&huart3, (uint8_t*) userName2, strlen(userName2),1000);
 	while(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_TC)==RESET){}
