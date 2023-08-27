@@ -66,7 +66,7 @@ void RecieveString(){
 	while(ch!='\r'){
 		while(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_RXNE)== RESET){}
 		HAL_UART_Receive(&huart3, (uint8_t*) &ch, 1, 1000);
-		if(ch!=8){
+		if(ch!='\b'){
 		  	recieveStr[recieveStrLength++]= ch;
 		}
 		else if(recieveStrLength>0){
@@ -77,7 +77,7 @@ void RecieveString(){
 	}
 	recieveStr[recieveStrLength++]= '\n';
 	while(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_TC)==RESET){}
-			HAL_UART_Transmit(&huart3, (uint8_t*) '\n', 1,1000);
+			HAL_UART_Transmit(&huart3, (uint8_t*) "\n", 1,1000);
 
 }
 /* USER CODE END 0 */
@@ -143,7 +143,7 @@ int main(void)
 		HAL_UART_Transmit(&huart3, (uint8_t*) startStr3, strlen(startStr3),1000);
 	while(1){
 		while(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_TC)==RESET){}
-			HAL_UART_Transmit(&huart3, (uint8_t*) '\t', 1,1000);
+			HAL_UART_Transmit(&huart3, (uint8_t*) "\t", 1,1000);
 		while(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_TC)==RESET){}
 			HAL_UART_Transmit(&huart3, (uint8_t*) userName1, userNameLength1,1000);
 		while(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_TC)==RESET){}
