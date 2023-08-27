@@ -675,14 +675,14 @@ int main(void)
  800078a:	f001 feab 	bl	80024e4 <HAL_UART_Transmit>
 		RecieveString();
  800078e:	f7ff fed9 	bl	8000544 <RecieveString>
-		if(recieveStr[0]==1&&recieveStrLength==2){
+		if(recieveStr[0]=='q'&&recieveStrLength==3){
  8000792:	4b35      	ldr	r3, [pc, #212]	; (8000868 <main+0x278>)
  8000794:	781b      	ldrb	r3, [r3, #0]
- 8000796:	2b01      	cmp	r3, #1
+ 8000796:	2b71      	cmp	r3, #113	; 0x71
  8000798:	d103      	bne.n	80007a2 <main+0x1b2>
  800079a:	4b34      	ldr	r3, [pc, #208]	; (800086c <main+0x27c>)
  800079c:	681b      	ldr	r3, [r3, #0]
- 800079e:	2b02      	cmp	r3, #2
+ 800079e:	2b03      	cmp	r3, #3
  80007a0:	d045      	beq.n	800082e <main+0x23e>
 			break;
 		}

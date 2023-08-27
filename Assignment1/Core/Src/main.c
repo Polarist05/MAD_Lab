@@ -144,7 +144,7 @@ int main(void)
 		while(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_TC)==RESET){}
 			HAL_UART_Transmit(&huart3, (uint8_t*) arrowStr, strlen(arrowStr),1000);
 		RecieveString();
-		if(recieveStr[0]==1&&recieveStrLength==2){
+		if(recieveStr[0]=='q'&&recieveStrLength==3){
 			break;
 		}
 		while(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_TC)==RESET){}
