@@ -1,0 +1,11 @@
+../Core/Src/main.c:68:6:displayNumber	1
+../Core/Src/main.c:74:6:printValue	2
+../Core/Src/main.c:78:6:TIM1_UP_TIM10_IRQHandler	1
+../Core/Src/main.c:87:5:main	1
+../Core/Src/main.c:137:6:SystemClock_Config	4
+../Core/Src/main.c:192:13:MX_TIM1_Init	4
+../Core/Src/main.c:239:13:MX_TIM2_Init	4
+../Core/Src/main.c:284:13:MX_USART3_UART_Init	2
+../Core/Src/main.c:319:13:MX_GPIO_Init	1
+../Core/Src/main.c:337:6:MPU_Config	1
+../Core/Src/main.c:368:6:Error_Handler	1
