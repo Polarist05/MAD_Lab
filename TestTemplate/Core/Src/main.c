@@ -100,7 +100,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  char ch = getChar();
+	  printOut(&ch);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
