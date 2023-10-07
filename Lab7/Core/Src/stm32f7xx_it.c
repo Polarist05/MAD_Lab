@@ -208,28 +208,6 @@ void SysTick_Handler(void)
 void USART3_IRQHandler(void)
 {
   /* USER CODE BEGIN USART3_IRQn 0 */
-	HAL_UART_Receive(&huart3,&ch,1,1000);
-		float *pCycle = NULL;
-		uint32_t *ccr = NULL;
-		switch(ch){
-			case 'r':
-				pCycle = &rCycle;
-				ccr = &(htim3.Instance->CCR1);
-				break;
-			case 'g':
-				pCycle = &gCycle;
-				ccr = &(htim3.Instance->CCR2);
-				break;
-			case 'b':
-				pCycle = &bCycle;
-				ccr = &(htim3.Instance->CCR3);
-				break;
-		}
-		if(pCycle != NULL){
-			HAL_UART_Transmit(&huart3,"\r\n",2,1000);
-			*pCycle = *pCycle== 1?0:*pCycle+.2;
-			*ccr = *pCycle;
-		}
   /* USER CODE END USART3_IRQn 0 */
   HAL_UART_IRQHandler(&huart3);
   /* USER CODE BEGIN USART3_IRQn 1 */

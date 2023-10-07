@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -62,11 +62,49 @@ static void MX_USART3_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t pwm;
-float rCycle=.25;
-float gCycle=.25;
-float bCycle=.25;
+uint8_t rPWM,gPWM,bPWM;
+float rCycle=.0;
+float gCycle=.0;
+float bCycle=.0;
 char ch;
+void printValue(char* str){
+	while(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_TC)==RESET){}
+	HAL_UART_Transmit(&huart3,str,strlen(str),1000);
+}
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+			float *pCycle = NULL;
+			uint32_t *ccr = NULL;
+			switch(ch){
+				case 'r':
+					pCycle = &rCycle;
+					ccr = &(htim3.Instance->CCR1);
+					break;
+				case 'g':
+					pCycle = &gCycle;
+					ccr = &(htim3.Instance->CCR2);
+					break;
+				case 'b':
+					pCycle = &bCycle;
+					ccr = &(htim3.Instance->CCR3);
+					break;
+			}
+			char str[20];
+			sprintf(str,"%c\r\n",ch);
+			printValue(str);
+			if(pCycle != NULL){
+				  /*HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_1);
+				  HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_2);
+				  HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_3);*/
+				sprintf(str,"%.2f\r\n",*pCycle);
+				printValue(str);
+				*pCycle = (*pCycle>= 1?0:(*pCycle+.2));
+				*ccr = (10000-1)* (*pCycle);
+				  /*HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+				  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+				  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);*/
+			}
+			HAL_UART_Receive_IT(&huart3,(uint32_t*)&ch,1);
+}
 /* USER CODE END 0 */
 
 /**
@@ -101,6 +139,7 @@ int main(void)
   MX_TIM3_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
+  HAL_UART_Receive_IT(&huart3,(uint32_t*)&ch,1);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
@@ -118,7 +157,9 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  pwm = (GPIOB->IDR & GPIO_PIN_10) >>10;
+	  rPWM = (GPIOA->IDR & GPIO_PIN_6) >>6;
+	  gPWM = (GPIOA->IDR & GPIO_PIN_7) >>7;
+	  bPWM = (GPIOC->IDR & GPIO_PIN_8) >>8;
   }
   /* USER CODE END 3 */
 }
@@ -256,7 +297,7 @@ static void MX_TIM3_Init(void)
 
   /* USER CODE END TIM3_Init 1 */
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 1080-1;
+  htim3.Init.Prescaler = 108-1;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim3.Init.Period = 10000-1;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
